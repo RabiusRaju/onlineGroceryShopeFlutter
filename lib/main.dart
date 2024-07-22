@@ -5,6 +5,7 @@ import 'package:online_shop/pages/home.dart';
 import 'package:online_shop/pages/login.dart';
 import 'package:online_shop/pages/onboard.dart';
 import 'package:online_shop/pages/signup.dart';
+import 'package:online_shop/pages/wallet.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
