@@ -1,23 +1,18 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:online_shop/pages/bottomnav.dart';
 import 'package:online_shop/pages/home.dart';
 import 'package:online_shop/pages/login.dart';
 import 'package:online_shop/pages/onboard.dart';
 import 'package:online_shop/pages/signup.dart';
 import 'package:online_shop/pages/wallet.dart';
+import 'package:online_shop/widget/app_constant.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-      /*options: const FirebaseOptions(
-        apiKey: 'apikey',
-        appId: 'appId',
-        messagingSenderId: 'messagingSenderId',
-        projectId: 'projectId',
-        storageBucket: 'storageBucket',
-      )*/
-  );
+  Stripe.publishableKey = publishableKey;
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

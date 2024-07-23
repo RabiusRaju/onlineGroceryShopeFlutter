@@ -4,6 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:online_shop/pages/bottomnav.dart';
 import 'package:online_shop/pages/login.dart';
+import 'package:online_shop/service/database.dart';
+import 'package:online_shop/service/shared_pref.dart';
+import 'package:random_string/random_string.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widget/widget_support.dart';
 
@@ -38,6 +42,23 @@ class _SignUpState extends State<SignUp> {
               "Registered Successfully",
               style: TextStyle(fontSize: 20.0),
             ))));
+
+         String id = randomAlphaNumeric(10);
+         Map<String, dynamic> addUserInfo = {
+           "Name": nameController.text,
+           "Email": mailController.text,
+           "Wallet": "0",
+           "Id": id
+         };
+
+         await DatabaseMethods().addUserDetail(addUserInfo, id);
+         await SharedPreferenceHelper().saveUserName(nameController.text);
+         await SharedPreferenceHelper().saveUserEmail(mailController.text);
+         await SharedPreferenceHelper().saveUserWallet('0');
+         await SharedPreferenceHelper().saveUserId(id);
+
+
+
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const BottomNav()));
       } on FirebaseException catch (e) {
