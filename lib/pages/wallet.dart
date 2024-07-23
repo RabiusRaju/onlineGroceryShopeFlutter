@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:online_shop/service/database.dart';
 import 'package:online_shop/service/shared_pref.dart';
 import 'package:online_shop/widget/app_constant.dart';
 import 'package:online_shop/widget/widget_support.dart';
@@ -15,13 +16,16 @@ class Wallet extends StatefulWidget {
 }
 
 class _WalletState extends State<Wallet> {
-  String? wallet;
+  String? wallet, id;
   int? add;
+
+  TextEditingController amountController = TextEditingController();
 
   Map<String, dynamic>? paymentIntent;
 
   getTheSharedPref() async {
     wallet = await SharedPreferenceHelper().getUserWallet();
+    id = await SharedPreferenceHelper().getUserId();
     setState(() {});
   }
 
@@ -176,21 +180,26 @@ class _WalletState extends State<Wallet> {
                   const SizedBox(
                     height: 50.0,
                   ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20.0),
-                    padding: const EdgeInsets.symmetric(vertical: 12.0),
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        color: Color(0xFF008080),
-                        borderRadius: BorderRadius.circular(8)),
-                    child: const Center(
-                      child: Text(
-                        "Add Money",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.0,
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.bold),
+                  GestureDetector(
+                    onTap: () {
+                      openEdit();
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 20.0),
+                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          color: Color(0xFF008080),
+                          borderRadius: BorderRadius.circular(8)),
+                      child: const Center(
+                        child: Text(
+                          "Add Money",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.0,
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
                   )
@@ -222,21 +231,25 @@ class _WalletState extends State<Wallet> {
       await Stripe.instance.presentPaymentSheet().then((value) async {
         add = int.parse(wallet!) + int.parse(amount);
         await SharedPreferenceHelper().saveUserWallet(add.toString());
+        await DatabaseMethods().UpdateUserWallet(id!, add.toString());
         showDialog(
             context: context,
-            builder: (_) => const AlertDialog(
-                  content: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.check_circle,
-                            color: Colors.green,
-                          ),
-                          Text("Payment Successfully Done !")
-                        ],
-                      )
-                    ],
+            builder: (_) => AlertDialog(
+                  content: Container(
+                    height: 300,
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.check_circle,
+                              color: Colors.green,
+                            ),
+                            Text("Payment Successfully Done !")
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ));
         await getTheSharedPref();
@@ -283,4 +296,76 @@ class _WalletState extends State<Wallet> {
     final calculatedAmount = (int.parse(amount) * 100);
     return calculatedAmount.toString();
   }
+
+  Future openEdit() => showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+            content: Container(
+              height: 300,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {},
+                        child: const Icon(Icons.cancel),
+                      ),
+                      const SizedBox(
+                        width: 60.0,
+                      ),
+                      const Center(
+                        child: Text(
+                          "Add Money",
+                          style: TextStyle(
+                              color: Color(0xFF008080),
+                              fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  const Text("Amount"),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black38, width: 2.0),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: TextField(
+                      controller: amountController,
+                      decoration: const InputDecoration(
+                          border: InputBorder.none, hintText: 'Enter Amount'),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                        makePayment(amountController.text);
+                      },
+                      child: Container(
+                        width: 100,
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                            color: const Color(0xFF008080),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: const Text(
+                          "Pay",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ));
 }
