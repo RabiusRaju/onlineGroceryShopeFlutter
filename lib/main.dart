@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:online_shop/admin/home_admin.dart';
 import 'package:online_shop/pages/bottomnav.dart';
 import 'package:online_shop/pages/home.dart';
 import 'package:online_shop/pages/login.dart';
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         debugShowCheckedModeBanner: false,
-        home: const AdminLogin());
+        home: const HomeAdmin());
   }
 }
 

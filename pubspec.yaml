@@ -38,6 +38,8 @@ dependencies:
   http: ^1.1.0
   random_string: ^2.3.1
   shared_preferences: ^2.2.2
+  image_picker: ^1.0.4
+  firebase_storage: ^11.5.1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -78,6 +80,7 @@ flutter:
      - images/screen1.png
      - images/screen2.png
      - images/screen3.png
+     - images/food.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

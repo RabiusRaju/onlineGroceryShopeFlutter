@@ -25,7 +25,7 @@ class _LogInState extends State<LogIn> {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
 
-      ScaffoldMessenger.of(context).showSnackBar((SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar((const SnackBar(
           backgroundColor: Colors.redAccent,
           content: Text(
             "Login Successfully",
@@ -35,14 +35,14 @@ class _LogInState extends State<LogIn> {
           MaterialPageRoute(builder: (context) => const BottomNav()));
     } on FirebaseException catch (e) {
       if (e.code == 'user-not-found') {
-        ScaffoldMessenger.of(context).showSnackBar((SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar((const SnackBar(
             backgroundColor: Colors.orangeAccent,
             content: Text(
               "No User Found for that Email",
               style: TextStyle(fontSize: 18.0, color: Colors.black),
             ))));
       } else if (e.code == 'wrong-password') {
-        ScaffoldMessenger.of(context).showSnackBar((SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar((const SnackBar(
             backgroundColor: Colors.orangeAccent,
             content: Text(
               "Wrong Password Provided by User",

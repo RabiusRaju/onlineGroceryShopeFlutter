@@ -36,7 +36,7 @@ class _SignUpState extends State<SignUp> {
         UserCredential userCredential = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password);
 
-         ScaffoldMessenger.of(context).showSnackBar((SnackBar(
+         ScaffoldMessenger.of(context).showSnackBar((const SnackBar(
             backgroundColor: Colors.redAccent,
             content: Text(
               "Registered Successfully",
@@ -63,14 +63,14 @@ class _SignUpState extends State<SignUp> {
             MaterialPageRoute(builder: (context) => const BottomNav()));
       } on FirebaseException catch (e) {
         if (e.code == 'weak-password') {
-          ScaffoldMessenger.of(context).showSnackBar((SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar((const SnackBar(
               backgroundColor: Colors.orangeAccent,
               content: Text(
                 "Password Provided is too Weak",
                 style: TextStyle(fontSize: 18.0),
               ))));
         } else if (e.code == 'email-already-in-use') {
-          ScaffoldMessenger.of(context).showSnackBar((SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar((const SnackBar(
               backgroundColor: Colors.orangeAccent,
               content: Text(
                 "Account Already exsists",
