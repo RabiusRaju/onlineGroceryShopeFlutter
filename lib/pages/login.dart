@@ -15,8 +15,8 @@ class LogIn extends StatefulWidget {
 
 class _LogInState extends State<LogIn> {
   String email = "", password = "";
-  TextEditingController mailController =  TextEditingController();
-  TextEditingController passwordController =  TextEditingController();
+  TextEditingController mailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -31,8 +31,8 @@ class _LogInState extends State<LogIn> {
             "Login Successfully",
             style: TextStyle(fontSize: 20.0),
           ))));
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => const BottomNav()));
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const BottomNav()));
     } on FirebaseException catch (e) {
       if (e.code == 'user-not-found') {
         ScaffoldMessenger.of(context).showSnackBar((const SnackBar(
@@ -155,11 +155,12 @@ class _LogInState extends State<LogIn> {
                               Container(
                                 alignment: Alignment.topRight,
                                 child: GestureDetector(
-                                  onTap: (){
+                                  onTap: () {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => const ForgotPassword()));
+                                            builder: (context) =>
+                                                const ForgotPassword()));
                                   },
                                   child: Text(
                                     "Forgot Password?",

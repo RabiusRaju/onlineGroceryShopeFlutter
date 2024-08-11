@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:online_shop/pages/login.dart';
-import 'package:online_shop/pages/wallet.dart';
+import 'package:online_shop/admin/home_admin.dart';
 
 import '../pages/bottomnav.dart';
 
@@ -185,7 +184,7 @@ class _AdminLoginState extends State<AdminLogin> {
                     style: TextStyle(fontSize: 18.0, color: Colors.black),
                   ))));
             } else {
-              Route route = MaterialPageRoute(builder: (context) => const BottomNav());
+              Route route = MaterialPageRoute(builder: (context) => const HomeAdmin());
               Navigator.pushReplacement(context, route);
             }
           })
